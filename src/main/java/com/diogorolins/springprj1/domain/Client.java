@@ -39,6 +39,8 @@ public class Client implements Serializable{
 	@CollectionTable(name = "tb_phone")
 	private Set<String> phones = new HashSet<>();
 	
+	private List<Order> orders = new ArrayList<>();
+	
 	public Client() {
 		
 	}
@@ -98,6 +100,10 @@ public class Client implements Serializable{
 
 	public Set<String> getPhones() {
 		return phones;
+	}
+	
+	public List<Order> getOrders() {
+		return orders;
 	}
 
 	@Override
