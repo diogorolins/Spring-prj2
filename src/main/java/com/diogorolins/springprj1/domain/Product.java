@@ -8,33 +8,38 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-@Table(name = "tb_category")
-public class Category implements Serializable {
+@Table(name = "tb_product")
+public class Product implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private Double price;
 	
-	@JsonManagedReference
-	@ManyToMany(mappedBy = "categories")
-	private List<Product> products = new ArrayList<>();
+	@JsonBackReference
+	@ManyToMany
+	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private List<Category> categories = new ArrayList<>();
 	
-	public Category() {
+	public Product() {
 		
 	}
 
-	public Category(Integer id, String name) {
+	public Product(Integer id, String name, Double price) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.price = price;
 	}
 
 	public Integer getId() {
@@ -52,9 +57,18 @@ public class Category implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 	
-	public List<Product> getProducts() {
-		return products;
+	
+	public List<Category> getCategories() {
+		return categories;
 	}
 
 	@Override
@@ -73,7 +87,7 @@ public class Category implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Product other = (Product) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -81,5 +95,6 @@ public class Category implements Serializable {
 			return false;
 		return true;
 	}
-
+	
+	
 }
