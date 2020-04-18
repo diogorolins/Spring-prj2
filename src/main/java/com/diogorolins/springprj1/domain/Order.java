@@ -1,29 +1,47 @@
 package com.diogorolins.springprj1.domain;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tb_order")
 public class Order  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Instant instant;
+	private Date instant;
 	
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
 	private Payment payment;
 	
+	@ManyToOne
+	@JoinColumn(name = "client_id")
 	private Client client;
 	
+	@ManyToOne
+	@JoinColumn(name = "address_id")
 	private Address address;
 	
 	public Order() {
 		
 	}
 
-	public Order(Integer id, Instant instant, Payment payment, Client client, Address address) {
+	public Order(Integer id, Date instant, Client client, Address address) {
 		super();
 		this.id = id;
 		this.instant = instant;
-		this.payment = payment;
 		this.client = client;
 		this.address = address;
 	}
@@ -36,11 +54,11 @@ public class Order  implements Serializable{
 		this.id = id;
 	}
 
-	public Instant getInstant() {
+	public Date getInstant() {
 		return instant;
 	}
 
-	public void setInstant(Instant instant) {
+	public void setInstant(Date instant) {
 		this.instant = instant;
 	}
 

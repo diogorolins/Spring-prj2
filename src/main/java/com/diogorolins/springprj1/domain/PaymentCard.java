@@ -1,7 +1,10 @@
 package com.diogorolins.springprj1.domain;
 
+import javax.persistence.Entity;
+
 import com.diogorolins.springprj1.domain.enums.PaymentStatus;
 
+@Entity
 public class PaymentCard extends Payment{
 	private static final long serialVersionUID = 1L;
 	

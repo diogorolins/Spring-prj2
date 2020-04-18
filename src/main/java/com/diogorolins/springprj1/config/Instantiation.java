@@ -1,5 +1,6 @@
 package com.diogorolins.springprj1.config;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,20 @@ import com.diogorolins.springprj1.domain.Address;
 import com.diogorolins.springprj1.domain.Category;
 import com.diogorolins.springprj1.domain.City;
 import com.diogorolins.springprj1.domain.Client;
+import com.diogorolins.springprj1.domain.Order;
+import com.diogorolins.springprj1.domain.Payment;
+import com.diogorolins.springprj1.domain.PaymentBoleto;
+import com.diogorolins.springprj1.domain.PaymentCard;
 import com.diogorolins.springprj1.domain.Product;
 import com.diogorolins.springprj1.domain.State;
 import com.diogorolins.springprj1.domain.enums.ClientType;
+import com.diogorolins.springprj1.domain.enums.PaymentStatus;
 import com.diogorolins.springprj1.repositories.AddressRepository;
 import com.diogorolins.springprj1.repositories.CategoryRepository;
 import com.diogorolins.springprj1.repositories.CityRepository;
 import com.diogorolins.springprj1.repositories.ClientRepository;
+import com.diogorolins.springprj1.repositories.OrderRepository;
+import com.diogorolins.springprj1.repositories.PaymentRepository;
 import com.diogorolins.springprj1.repositories.ProductRepository;
 import com.diogorolins.springprj1.repositories.StateRepository;
 
@@ -42,6 +50,12 @@ public class Instantiation implements CommandLineRunner{
 	
 	@Autowired
 	private AddressRepository addressRepository;
+	
+	@Autowired
+	private OrderRepository orderrepository;
+	
+	@Autowired
+	private PaymentRepository paymentrepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -75,9 +89,10 @@ public class Instantiation implements CommandLineRunner{
 		
 		stateRepository.saveAll(Arrays.asList(st1, st2));
 		cityRepository.saveAll(Arrays.asList(city1, city2, city3));
-		System.out.println(city1);
+		
 		Client cli1 = new Client(null, "Maria Silva", "maria@mail,com", "19293949585", ClientType.PESSOAFISICA);
 		cli1.getPhones().addAll(Arrays.asList("891898118","27272772"));
+		
 		Address ad1 = new Address(null, "Rua Flores", "300", "Apt 303", "Jardim", "22938293", cli1, city1);
 		Address ad2 = new Address(null, "Avenida Matos", "105", "Sala 803", "Centro", "32323939", cli1, city2);
 		cli1.getAddresses().addAll(Arrays.asList(ad1, ad2));
@@ -85,6 +100,24 @@ public class Instantiation implements CommandLineRunner{
 		clientReposotory.saveAll(Arrays.asList(cli1));
 		addressRepository.saveAll(Arrays.asList(ad1, ad2));
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Order ord1 = new Order(null, sdf.parse("30/09/2017 10:32"), cli1, ad1);
+		Order ord2 = new Order(null, sdf.parse("10/10/2017 19:35"), cli1, ad2);
+		
+		Payment pay1 = new PaymentCard(null, PaymentStatus.PAID, ord1, 6);
+		ord1.setPayment(pay1);
+		
+		Payment pay2 = new PaymentBoleto(null, PaymentStatus.WAITING_PAYMENT, ord2, sdf.parse("20/10/2017 00:00:00"), null);
+		ord2.setPayment(pay2);
+		
+		cli1.getOrders().addAll(Arrays.asList(ord1, ord2));
+		
+		orderrepository.saveAll(Arrays.asList(ord1, ord2));
+		paymentrepository.saveAll(Arrays.asList(pay1, pay2));
+		
+		
+				
 	}
 
 }

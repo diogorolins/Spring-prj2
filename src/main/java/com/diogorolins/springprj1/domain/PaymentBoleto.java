@@ -2,8 +2,11 @@ package com.diogorolins.springprj1.domain;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+
 import com.diogorolins.springprj1.domain.enums.PaymentStatus;
 
+@Entity
 public class PaymentBoleto extends Payment{
 	private static final long serialVersionUID = 1L;
 	

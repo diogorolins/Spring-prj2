@@ -2,14 +2,30 @@ package com.diogorolins.springprj1.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import com.diogorolins.springprj1.domain.enums.PaymentStatus;
 
-public class Payment implements Serializable{
+@Entity
+@Table(name = "tb_payment")
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Payment implements Serializable{
 	private static final long serialVersionUID = 1L;
-
-	private Integer id;
-	private PaymentStatus paymentStatus;
 	
+	@Id
+	private Integer id;
+	private Integer paymentStatus;
+	
+	@OneToOne
+	@JoinColumn(name = "order_id")
+	@MapsId
 	private Order order;
 	
 	public Payment() {
@@ -19,7 +35,7 @@ public class Payment implements Serializable{
 	public Payment(Integer id, PaymentStatus paymentStatus, Order order) {
 		super();
 		this.id = id;
-		this.paymentStatus = paymentStatus;
+		this.paymentStatus = paymentStatus.getCode();
 		this.order = order;
 	}
 
@@ -32,11 +48,11 @@ public class Payment implements Serializable{
 	}
 
 	public PaymentStatus getPaymentStatus() {
-		return paymentStatus;
+		return PaymentStatus.valueOf(paymentStatus);
 	}
 
 	public void setPaymentStatus(PaymentStatus paymentStatus) {
-		this.paymentStatus = paymentStatus;
+		this.paymentStatus = paymentStatus.getCode();
 	}
 
 	public Order getOrder() {
