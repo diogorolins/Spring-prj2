@@ -38,7 +38,7 @@ public class CategoryService {
 	}
 	
 	public void delete(Integer id) {
-		Category obj = findById(id);
+		findById(id);
 		try {
 			repository.deleteById(id);
 		} catch(DataIntegrityViolationException e) {

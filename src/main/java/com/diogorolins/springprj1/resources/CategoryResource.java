@@ -2,6 +2,7 @@ package com.diogorolins.springprj1.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.diogorolins.springprj1.domain.Category;
+import com.diogorolins.springprj1.domain.dto.CategoryDTO;
 import com.diogorolins.springprj1.services.CategoryService;
 
 @RestController
@@ -28,8 +30,10 @@ public class CategoryResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Category>> findAll(){
-		return ResponseEntity.ok().body(service.findAll());
+	public ResponseEntity<List<CategoryDTO>> findAll(){
+		List<Category> list = service.findAll();
+		List<CategoryDTO> listDto = list.stream().map(obj -> new CategoryDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
