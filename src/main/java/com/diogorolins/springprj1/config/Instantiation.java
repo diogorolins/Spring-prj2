@@ -13,6 +13,7 @@ import com.diogorolins.springprj1.domain.Category;
 import com.diogorolins.springprj1.domain.City;
 import com.diogorolins.springprj1.domain.Client;
 import com.diogorolins.springprj1.domain.Order;
+import com.diogorolins.springprj1.domain.OrderItem;
 import com.diogorolins.springprj1.domain.Payment;
 import com.diogorolins.springprj1.domain.PaymentBoleto;
 import com.diogorolins.springprj1.domain.PaymentCard;
@@ -24,6 +25,7 @@ import com.diogorolins.springprj1.repositories.AddressRepository;
 import com.diogorolins.springprj1.repositories.CategoryRepository;
 import com.diogorolins.springprj1.repositories.CityRepository;
 import com.diogorolins.springprj1.repositories.ClientRepository;
+import com.diogorolins.springprj1.repositories.OrderItemRepository;
 import com.diogorolins.springprj1.repositories.OrderRepository;
 import com.diogorolins.springprj1.repositories.PaymentRepository;
 import com.diogorolins.springprj1.repositories.ProductRepository;
@@ -52,10 +54,13 @@ public class Instantiation implements CommandLineRunner{
 	private AddressRepository addressRepository;
 	
 	@Autowired
-	private OrderRepository orderrepository;
+	private OrderRepository orderRepository;
 	
 	@Autowired
-	private PaymentRepository paymentrepository;
+	private PaymentRepository paymentRepository;
+
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -113,11 +118,22 @@ public class Instantiation implements CommandLineRunner{
 		
 		cli1.getOrders().addAll(Arrays.asList(ord1, ord2));
 		
-		orderrepository.saveAll(Arrays.asList(ord1, ord2));
-		paymentrepository.saveAll(Arrays.asList(pay1, pay2));
+		orderRepository.saveAll(Arrays.asList(ord1, ord2));
+		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
 		
+		OrderItem oi1 = new OrderItem(ord1, p1, 0.00, 1, p1.getPrice());
+		OrderItem oi2 = new OrderItem(ord1, p3, 0.00, 2, p3.getPrice());
+		OrderItem oi3 = new OrderItem(ord2, p2, 100.00, 1, p2.getPrice());
 		
-				
+		ord1.getItems().addAll(Arrays.asList(oi1,oi2));
+		ord2.getItems().addAll(Arrays.asList(oi3));
+		
+		p1.getItems().addAll(Arrays.asList(oi1));
+		p2.getItems().addAll(Arrays.asList(oi3));
+		p3.getItems().addAll(Arrays.asList(oi2));
+		
+		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3));
+		
 	}
 
 }
