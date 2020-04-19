@@ -12,6 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.diogorolins.springprj1.domain.enums.PaymentStatus;
+import com.diogorolins.springprj1.domain.enums.PaymentType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_payment")
@@ -22,7 +24,9 @@ public abstract class Payment implements Serializable{
 	@Id
 	private Integer id;
 	private Integer paymentStatus;
+	private Integer paymentType;
 	
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "order_id")
 	@MapsId
@@ -32,10 +36,11 @@ public abstract class Payment implements Serializable{
 		
 	}
 
-	public Payment(Integer id, PaymentStatus paymentStatus, Order order) {
+	public Payment(Integer id, PaymentStatus paymentStatus, PaymentType paymentType,  Order order) {
 		super();
 		this.id = id;
 		this.paymentStatus = paymentStatus.getCode();
+		this.paymentType = paymentType.getCode();
 		this.order = order;
 	}
 
@@ -53,6 +58,14 @@ public abstract class Payment implements Serializable{
 
 	public void setPaymentStatus(PaymentStatus paymentStatus) {
 		this.paymentStatus = paymentStatus.getCode();
+	}
+	
+	public void setPaymentType(PaymentType paymentType) {
+		this.paymentType = paymentType.getCode();
+	}
+
+	public PaymentType getPaymentType() {
+		return PaymentType.valueOf(paymentType);
 	}
 
 	public Order getOrder() {

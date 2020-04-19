@@ -3,6 +3,7 @@ package com.diogorolins.springprj1.domain;
 import javax.persistence.Entity;
 
 import com.diogorolins.springprj1.domain.enums.PaymentStatus;
+import com.diogorolins.springprj1.domain.enums.PaymentType;
 
 @Entity
 public class PaymentCard extends Payment{
@@ -14,8 +15,8 @@ public class PaymentCard extends Payment{
 		
 	}
 
-	public PaymentCard(Integer id, PaymentStatus paymentStatus, Order order, Integer installment) {
-		super(id, paymentStatus, order);
+	public PaymentCard(Integer id, PaymentStatus paymentStatus, PaymentType paymentType, Order order, Integer installment) {
+		super(id, paymentStatus, paymentType, order);
 		this.installment = installment;
 	}
 

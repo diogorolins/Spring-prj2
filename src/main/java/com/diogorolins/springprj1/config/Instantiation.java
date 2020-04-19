@@ -21,6 +21,7 @@ import com.diogorolins.springprj1.domain.Product;
 import com.diogorolins.springprj1.domain.State;
 import com.diogorolins.springprj1.domain.enums.ClientType;
 import com.diogorolins.springprj1.domain.enums.PaymentStatus;
+import com.diogorolins.springprj1.domain.enums.PaymentType;
 import com.diogorolins.springprj1.repositories.AddressRepository;
 import com.diogorolins.springprj1.repositories.CategoryRepository;
 import com.diogorolins.springprj1.repositories.CityRepository;
@@ -110,10 +111,10 @@ public class Instantiation implements CommandLineRunner{
 		Order ord1 = new Order(null, sdf.parse("30/09/2017 10:32"), cli1, ad1);
 		Order ord2 = new Order(null, sdf.parse("10/10/2017 19:35"), cli1, ad2);
 		
-		Payment pay1 = new PaymentCard(null, PaymentStatus.PAID, ord1, 6);
+		Payment pay1 = new PaymentCard(null, PaymentStatus.PAID,PaymentType.CARD, ord1, 6);
 		ord1.setPayment(pay1);
 		
-		Payment pay2 = new PaymentBoleto(null, PaymentStatus.WAITING_PAYMENT, ord2, sdf.parse("20/10/2017 00:00:00"), null);
+		Payment pay2 = new PaymentBoleto(null, PaymentStatus.WAITING_PAYMENT, PaymentType.BOLETO, ord2, sdf.parse("20/10/2017 00:00:00"), null);
 		ord2.setPayment(pay2);
 		
 		cli1.getOrders().addAll(Arrays.asList(ord1, ord2));
