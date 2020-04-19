@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.diogorolins.springprj1.domain.Category;
+import com.diogorolins.springprj1.exceptions.DatabaseException;
 import com.diogorolins.springprj1.exceptions.ObjectNotFoundException;
 import com.diogorolins.springprj1.repositories.CategoryRepository;
 
@@ -28,5 +30,19 @@ public class CategoryService {
 	public Category insert(Category obj) {
 		obj.setId(null);
 		return repository.save(obj);
+	}
+	
+	public Category update(Category obj) {
+		findById(obj.getId());
+		return repository.save(obj);
+	}
+	
+	public void delete(Integer id) {
+		Category obj = findById(id);
+		try {
+			repository.deleteById(id);
+		} catch(DataIntegrityViolationException e) {
+			throw new DatabaseException("Integrity error: " + Category.class.getSimpleName() + " ID: " + id );
+		}
 	}
 }
