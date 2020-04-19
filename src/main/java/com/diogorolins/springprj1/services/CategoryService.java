@@ -24,4 +24,9 @@ public class CategoryService {
 		Optional<Category> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Resource not found: " + Category.class.getSimpleName() + " id " + id));
 	}
+	
+	public Category insert(Category obj) {
+		obj.setId(null);
+		return repository.save(obj);
+	}
 }
