@@ -2,9 +2,7 @@ package com.diogorolins.springprj1.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -36,7 +34,7 @@ public class Client implements Serializable{
 	
 	@ElementCollection
 	@CollectionTable(name = "tb_phone")
-	private Set<String> phones = new HashSet<>();
+	private List<String> phones = new ArrayList<>();
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
@@ -99,7 +97,7 @@ public class Client implements Serializable{
 		return addresses;
 	}
 
-	public Set<String> getPhones() {
+	public List<String> getPhones() {
 		return phones;
 	}
 	

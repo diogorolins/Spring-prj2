@@ -49,6 +49,7 @@ public class ClientService {
 	public Client update(Client obj) {
 		Client newObj = findById(obj.getId());
 		obj = updateData(newObj, obj); 
+		repository.save(obj);
 		return obj;
 	}
 	
@@ -74,9 +75,9 @@ public class ClientService {
 		Client cli =  new Client(null, dto.getName(), dto.getEmail(), dto.getCpfCnpj(), ClientType.toEnum(dto.getClientType()));
 		Address adr = new Address(null, dto.getStreet(), dto.getNumber(), dto.getCompl(), dto.getNeighborhood(), dto.getZipCode(), cli, new City(dto.getCityId(), null, null));
 		cli.getAddresses().add(adr);
-		cli.getPhones().add(dto.getPhone1());
-		if(dto.getPhone2() != null) cli.getPhones().add(dto.getPhone2());
-		if(dto.getPhone3() != null) cli.getPhones().add(dto.getPhone3());
+		for(String s : dto.getPhones()) {
+			cli.getPhones().add(s);
+		}
 		return cli;
 	}
 	

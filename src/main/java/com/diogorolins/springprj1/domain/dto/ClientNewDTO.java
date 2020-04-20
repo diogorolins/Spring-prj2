@@ -1,13 +1,27 @@
 package com.diogorolins.springprj1.domain.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.diogorolins.springprj1.domain.Client;
 
 public class ClientNewDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	private Integer id;
+	
+	@NotEmpty(message = "Mandatory field")
+	@Length(min=5, max=80, message = "Between 5 and 120 caracters.")
 	private String name;
+	
+	@NotEmpty
+	@Email(message = "Invalid Email")
 	private String email;
 	private String cpfCnpj;
 	private Integer clientType;
@@ -18,9 +32,7 @@ public class ClientNewDTO implements Serializable{
 	private String neighborhood;
 	private String zipCode;
 	
-	private String phone1 ;
-	private String phone2 ;
-	private String phone3 ;
+	private List<String> phones = new ArrayList<>();	
 	
 	private Integer cityId;
 	
@@ -28,10 +40,9 @@ public class ClientNewDTO implements Serializable{
 		
 	}
 	
-	
-
 	public ClientNewDTO(Client obj) {
 		super();
+		this.id = obj.getId();
 		this.name = obj.getName();
 		this.email = obj.getEmail();
 		this.cpfCnpj = obj.getCpfCnpj();
@@ -41,13 +52,17 @@ public class ClientNewDTO implements Serializable{
 		this.compl = obj.getAddresses().get(0).getCompl();
 		this.neighborhood = obj.getAddresses().get(0).getNeighborhood();
 		this.zipCode = obj.getAddresses().get(0).getZipCode();
-		this.phone1 = obj.getPhones().iterator().toString();
-		this.phone2 = obj.getPhones().iterator().toString();
-		this.phone3 = obj.getPhones().iterator().toString();
+		this.phones = obj.getPhones();
 		this.cityId = obj.getAddresses().get(0).getCity().getId();
 	}
+	
+	public Integer getId() {
+		return id;
+	}
 
-
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -121,29 +136,16 @@ public class ClientNewDTO implements Serializable{
 		this.zipCode = zipCode;
 	}
 
-	public String getPhone1() {
-		return phone1;
+	
+	public List<String> getPhones() {
+		return phones;
 	}
 
-	public void setPhone1(String phone1) {
-		this.phone1 = phone1;
+	public void setPhones(List<String> phones) {
+		this.phones = phones;
 	}
 
-	public String getPhone2() {
-		return phone2;
-	}
 
-	public void setPhone2(String phone2) {
-		this.phone2 = phone2;
-	}
-
-	public String getPhone3() {
-		return phone3;
-	}
-
-	public void setPhone3(String phone3) {
-		this.phone3 = phone3;
-	}
 
 	public Integer getCityId() {
 		return cityId;
