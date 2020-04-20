@@ -47,4 +47,16 @@ public class ResourceExceptionHandler {
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
+	
+	@ExceptionHandler(IllegalStateException.class)
+	public ResponseEntity<StandardError> validation(IllegalStateException e, HttpServletRequest request) {
+		ValidationError err = new ValidationError(System.currentTimeMillis(), 
+				HttpStatus.BAD_REQUEST.value(), 
+				"Validation Error", 
+				e.getMessage(), 
+				request.getRequestURI());	
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	
+	
 }

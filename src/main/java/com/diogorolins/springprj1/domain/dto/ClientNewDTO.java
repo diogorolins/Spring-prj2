@@ -6,11 +6,14 @@ import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.diogorolins.springprj1.domain.Client;
+import com.diogorolins.springprj1.services.validations.ClientInsert;
 
+@ClientInsert
 public class ClientNewDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -23,15 +26,26 @@ public class ClientNewDTO implements Serializable{
 	@NotEmpty
 	@Email(message = "Invalid Email")
 	private String email;
+	
+	@NotEmpty(message = "Mandatory field")
 	private String cpfCnpj;
+	
 	private Integer clientType;
 	
+	@NotEmpty(message = "Mandatory field")
 	private String street;
+	
+	@NotEmpty(message = "Mandatory field")
 	private String number;
+	
 	private String compl;
+	
 	private String neighborhood;
+	
+	@NotEmpty(message = "Mandatory field")
 	private String zipCode;
 	
+	@Size(min=1, max=3, message = "Between 1 and 3 phones")
 	private List<String> phones = new ArrayList<>();	
 	
 	private Integer cityId;
