@@ -19,33 +19,33 @@ public class ClientNewDTO implements Serializable{
 	
 	private Integer id;
 	
-	@NotEmpty(message = "Mandatory field")
+	@NotEmpty(message = "Campo obrigatório")
 	@Length(min=5, max=80, message = "Between 5 and 120 caracters.")
 	private String name;
 	
 	@NotEmpty
-	@Email(message = "Invalid Email")
+	@Email(message = "Email inválido")
 	private String email;
 	
-	@NotEmpty(message = "Mandatory field")
+	@NotEmpty(message = "Campo obrigatório")
 	private String cpfCnpj;
 	
 	private Integer clientType;
 	
-	@NotEmpty(message = "Mandatory field")
+	@NotEmpty(message = "Campo obrigatório")
 	private String street;
 	
-	@NotEmpty(message = "Mandatory field")
+	@NotEmpty(message = "Campo obrigatório")
 	private String number;
 	
 	private String compl;
 	
 	private String neighborhood;
 	
-	@NotEmpty(message = "Mandatory field")
+	@NotEmpty(message = "Campo obrigatório")
 	private String zipCode;
 	
-	@Size(min=1, max=3, message = "Between 1 and 3 phones")
+	@Size(min=1, max=3, message = "Entre 1 e 3 telefones")
 	private List<String> phones = new ArrayList<>();	
 	
 	private Integer cityId;

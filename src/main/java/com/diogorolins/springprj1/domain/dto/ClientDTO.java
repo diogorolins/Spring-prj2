@@ -8,18 +8,20 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.diogorolins.springprj1.domain.Client;
+import com.diogorolins.springprj1.services.validations.ClientUpdate;
 
+@ClientUpdate
 public class ClientDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
 	
-	@NotEmpty(message = "Mandatory field")
-	@Length(min=5, max=80, message = "Between 5 and 120 caracters.")
+	@NotEmpty(message = "Campo obrigatório")
+	@Length(min=5, max=80, message = "Deve ter entre 5 e 80 caracteres.")
 	private String name;
 	
 	@NotEmpty
-	@Email(message = "Invalid Email")
+	@Email(message = "Email inválido")
 	private String email;
 	
 	public ClientDTO() {
