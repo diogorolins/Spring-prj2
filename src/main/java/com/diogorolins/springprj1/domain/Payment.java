@@ -12,19 +12,20 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.diogorolins.springprj1.domain.enums.PaymentStatus;
-import com.diogorolins.springprj1.domain.enums.PaymentType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Entity
 @Table(name = "tb_payment")
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Payment implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	private Integer id;
 	private Integer paymentStatus;
-	private Integer paymentType;
+
 	
 	@JsonIgnore
 	@OneToOne
@@ -36,11 +37,10 @@ public abstract class Payment implements Serializable{
 		
 	}
 
-	public Payment(Integer id, PaymentStatus paymentStatus, PaymentType paymentType,  Order order) {
+	public Payment(Integer id, PaymentStatus paymentStatus, Order order) {
 		super();
 		this.id = id;
 		this.paymentStatus = (paymentStatus == null) ? null : paymentStatus.getCode();
-		this.paymentType = (paymentType == null) ? null : paymentType.getCode();
 		this.order = order;
 	}
 
@@ -60,14 +60,6 @@ public abstract class Payment implements Serializable{
 		this.paymentStatus = paymentStatus.getCode();
 	}
 	
-	public void setPaymentType(PaymentType paymentType) {
-		this.paymentType = paymentType.getCode();
-	}
-
-	public PaymentType getPaymentType() {
-		return PaymentType.valueOf(paymentType);
-	}
-
 	public Order getOrder() {
 		return order;
 	}

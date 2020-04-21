@@ -56,6 +56,10 @@ public class Order  implements Serializable{
 		this.address = address;
 	}
 
+	public Double getTotal() {
+		return items.stream().map(i -> i.getSubTotal()).reduce(0.0, Double::sum);
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -124,6 +128,12 @@ public class Order  implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", instant=" + instant + ", payment=" + payment + ", client=" + client + ", address="
+				+ address + ", items=" + items + "]";
 	}
 
 	

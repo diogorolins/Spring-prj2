@@ -5,10 +5,11 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.diogorolins.springprj1.domain.enums.PaymentStatus;
-import com.diogorolins.springprj1.domain.enums.PaymentType;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @Entity
+@JsonTypeName("paymentBoleto")
 public class PaymentBoleto extends Payment{
 	private static final long serialVersionUID = 1L;
 	
@@ -22,8 +23,8 @@ public class PaymentBoleto extends Payment{
 		
 	}
 
-	public PaymentBoleto(Integer id, PaymentStatus paymentStatus, PaymentType paymentType, Order order, Date dueDate, Date paymentDate) {
-		super(id, paymentStatus, paymentType, order);
+	public PaymentBoleto(Integer id, PaymentStatus paymentStatus, Order order, Date dueDate, Date paymentDate) {
+		super(id, paymentStatus, order);
 		this.dueDate = dueDate;
 		this.paymentDate = paymentDate;
 	}

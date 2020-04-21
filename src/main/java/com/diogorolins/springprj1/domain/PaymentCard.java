@@ -3,9 +3,10 @@ package com.diogorolins.springprj1.domain;
 import javax.persistence.Entity;
 
 import com.diogorolins.springprj1.domain.enums.PaymentStatus;
-import com.diogorolins.springprj1.domain.enums.PaymentType;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @Entity
+@JsonTypeName("paymentCard")
 public class PaymentCard extends Payment{
 	private static final long serialVersionUID = 1L;
 	
@@ -15,8 +16,8 @@ public class PaymentCard extends Payment{
 		
 	}
 
-	public PaymentCard(Integer id, PaymentStatus paymentStatus, PaymentType paymentType, Order order, Integer installment) {
-		super(id, paymentStatus, paymentType, order);
+	public PaymentCard(Integer id, PaymentStatus paymentStatus, Order order, Integer installment) {
+		super(id, paymentStatus, order);
 		this.installment = installment;
 	}
 
