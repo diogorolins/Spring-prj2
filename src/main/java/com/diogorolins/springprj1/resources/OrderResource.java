@@ -1,6 +1,7 @@
 package com.diogorolins.springprj1.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -35,5 +36,11 @@ public class OrderResource {
 				.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<Order>> findAll(){
+		List<Order> list = service.findAll();
+		return ResponseEntity.ok().body(list);
 	}
 }
