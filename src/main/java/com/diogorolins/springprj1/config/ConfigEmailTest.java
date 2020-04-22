@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Profile;
 
 import com.diogorolins.springprj1.services.EmailService;
 import com.diogorolins.springprj1.services.MockEmailService;
-import com.diogorolins.springprj1.services.SmtpEmailService;
 
 @Configuration
 @Profile("test")
