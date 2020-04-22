@@ -124,7 +124,7 @@ public class Instantiation implements CommandLineRunner{
 		stateRepository.saveAll(Arrays.asList(st1, st2));
 		cityRepository.saveAll(Arrays.asList(city1, city2, city3));
 		
-		Client cli1 = new Client(null, "Maria Silva", "maria@mail,com", "19293949585", ClientType.PESSOAFISICA);
+		Client cli1 = new Client(null, "Maria Silva", "diogorolins@gmail,com", "19293949585", ClientType.PESSOAFISICA);
 		cli1.getPhones().addAll(Arrays.asList("891898118","27272772"));
 		
 		Address ad1 = new Address(null, "Rua Flores", "300", "Apt 303", "Jardim", "22938293", cli1, city1);

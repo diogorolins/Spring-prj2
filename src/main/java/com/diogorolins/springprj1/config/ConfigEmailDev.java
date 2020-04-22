@@ -9,7 +9,7 @@ import com.diogorolins.springprj1.services.MockEmailService;
 
 @Configuration
 @Profile("dev")
-public class ConfigEmail {
+public class ConfigEmailDev {
 
 	@Bean
 	public EmailService emailService() {
