@@ -34,6 +34,12 @@ public class OrderService {
 	@Autowired
 	private PaymentService paymentService;
 	
+	@Autowired
+	private ClientService clientService;
+	
+	@Autowired
+	private EmailService emailService;
+	
 	public List<Order> findAll() {
 		return repository.findAll();
 	}
@@ -45,12 +51,14 @@ public class OrderService {
 
 	public Order insert( Order obj) {
 		obj = configureOrder(obj);
+		emailService.sendOrderConfirmationMail(obj);
 		return obj;
 	}
 
 	private Order configureOrder(Order obj) {
 		obj.setId(null);
 		obj.setInstant(new Date());
+		obj.setClient(clientService.findById(obj.getClient().getId()));
 		obj.getPayment().setPaymentStatus(PaymentStatus.WAITING_PAYMENT);
 		obj.getPayment().setOrder(obj);
 		obj = repository.save(obj);
@@ -61,7 +69,8 @@ public class OrderService {
 		paymentRepository.save(obj.getPayment());
 		for(OrderItem i : obj.getItems()) {
 			i.setDiscount(0.0);
-			i.setPrice(productService.findById(i.getProduct().getId()).getPrice());
+			i.setProduct(productService.findById(i.getProduct().getId()));
+			i.setPrice(i.getProduct().getPrice());
 			i.setOrder(obj);
 		}
 		orderItemRepository.saveAll(obj.getItems());
