@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.diogorolins.springprj1.domain.Address;
@@ -29,6 +30,9 @@ public class ClientService {
 	
 	@Autowired
 	private AddressRepository addressRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 	public List<Client> findAll() {
 		return repository.findAll();
@@ -68,11 +72,11 @@ public class ClientService {
 	}
 	
 	public Client fromDto(ClientDTO dto) {
-		return new Client(dto.getId(), dto.getName(), dto.getEmail(), null, null);
+		return new Client(dto.getId(), dto.getName(), dto.getEmail(), null, null, null);
 	}
 	
 	public Client fromDto(ClientNewDTO dto) {
-		Client cli =  new Client(null, dto.getName(), dto.getEmail(), dto.getCpfCnpj(), ClientType.toEnum(dto.getClientType()));
+		Client cli =  new Client(null, dto.getName(), dto.getEmail(), dto.getCpfCnpj(), ClientType.toEnum(dto.getClientType()), pe.encode(dto.getPassword()));
 		Address adr = new Address(null, dto.getStreet(), dto.getNumber(), dto.getCompl(), dto.getNeighborhood(), dto.getZipCode(), cli, new City(dto.getCityId(), null, null));
 		cli.getAddresses().add(adr);
 		for(String s : dto.getPhones()) {

@@ -33,6 +33,9 @@ public class ClientNewDTO implements Serializable{
 	private Integer clientType;
 	
 	@NotEmpty(message = "Campo obrigatório")
+	private String password;
+	
+	@NotEmpty(message = "Campo obrigatório")
 	private String street;
 	
 	@NotEmpty(message = "Campo obrigatório")
@@ -108,6 +111,14 @@ public class ClientNewDTO implements Serializable{
 
 	public void setClientType(Integer clientType) {
 		this.clientType = clientType;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getStreet() {
