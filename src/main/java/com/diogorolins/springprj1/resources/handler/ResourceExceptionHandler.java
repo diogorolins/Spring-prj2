@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -56,6 +57,17 @@ public class ResourceExceptionHandler {
 				e.getMessage(), 
 				request.getRequestURI());	
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	
+	
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<StandardError> validation(AccessDeniedException e, HttpServletRequest request) {
+		ValidationError err = new ValidationError(System.currentTimeMillis(), 
+				HttpStatus.FORBIDDEN.value(), 
+				"Access Denied", 
+				e.getMessage(), 
+				request.getRequestURI());	
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
 	}
 	
 	
