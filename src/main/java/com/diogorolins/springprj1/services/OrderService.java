@@ -5,16 +5,22 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.diogorolins.springprj1.domain.Client;
 import com.diogorolins.springprj1.domain.Order;
 import com.diogorolins.springprj1.domain.OrderItem;
 import com.diogorolins.springprj1.domain.PaymentBoleto;
 import com.diogorolins.springprj1.domain.enums.PaymentStatus;
+import com.diogorolins.springprj1.exceptions.AuthorizationException;
 import com.diogorolins.springprj1.exceptions.ObjectNotFoundException;
 import com.diogorolins.springprj1.repositories.OrderItemRepository;
 import com.diogorolins.springprj1.repositories.OrderRepository;
 import com.diogorolins.springprj1.repositories.PaymentRepository;
+import com.diogorolins.springprj1.security.UserSS;
 
 @Service
 public class OrderService {
@@ -75,5 +81,15 @@ public class OrderService {
 		}
 		orderItemRepository.saveAll(obj.getItems());
 		return obj;
+	}
+	
+	public Page<Order> findPage(Integer page, Integer linesPerPage, String orderBy, String direction ){
+		UserSS user = UserService.authenticated();
+		if(user == null) {
+			throw new AuthorizationException("Access denied");
+		}		
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Client client = clientService.findById(user.getId());
+		return repository.findByClient(client, pageRequest);
 	}
 }

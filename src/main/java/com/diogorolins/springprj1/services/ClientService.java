@@ -17,10 +17,13 @@ import com.diogorolins.springprj1.domain.Client;
 import com.diogorolins.springprj1.domain.dto.ClientDTO;
 import com.diogorolins.springprj1.domain.dto.ClientNewDTO;
 import com.diogorolins.springprj1.domain.enums.ClientType;
+import com.diogorolins.springprj1.domain.enums.Roles;
+import com.diogorolins.springprj1.exceptions.AuthorizationException;
 import com.diogorolins.springprj1.exceptions.DatabaseException;
 import com.diogorolins.springprj1.exceptions.ObjectNotFoundException;
 import com.diogorolins.springprj1.repositories.AddressRepository;
 import com.diogorolins.springprj1.repositories.ClientRepository;
+import com.diogorolins.springprj1.security.UserSS;
 
 @Service
 public class ClientService {
@@ -39,6 +42,11 @@ public class ClientService {
 	}
 	
 	public Client findById(Integer id) {
+		UserSS userSS = UserService.authenticated();
+		if(userSS == null || !userSS.hasRole(Roles.ADMIN) && !id.equals(userSS.getId())) {
+			throw new AuthorizationException("Access denied.");
+		}
+		
 		Optional<Client> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Resource not found: " + Client.class.getSimpleName() + " id " + id));
 	}
