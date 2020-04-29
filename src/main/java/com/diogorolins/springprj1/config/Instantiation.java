@@ -129,10 +129,10 @@ public class Instantiation implements CommandLineRunner{
 		stateRepository.saveAll(Arrays.asList(st1, st2));
 		cityRepository.saveAll(Arrays.asList(city1, city2, city3));
 		
-		Client cli1 = new Client(null, "Maria Silva", "diogorolins@gmail,com", "19293949585", ClientType.PESSOAFISICA, pe.encode("123456"));
+		Client cli1 = new Client(null, "Maria Silva", "diogorolins@gmail.com", "19293949585", ClientType.PESSOAFISICA, pe.encode("123456"));
 		cli1.getPhones().addAll(Arrays.asList("891898118","27272772"));
 		
-		Client cli2 = new Client(null, "Ana Costa", "diogorolins@hotmail,com", "09475414703", ClientType.PESSOAFISICA, pe.encode("123456"));
+		Client cli2 = new Client(null, "Ana Costa", "diogorolins@hotmail.com", "09475414703", ClientType.PESSOAFISICA, pe.encode("123456"));
 		cli2.addRole(Roles.ADMIN);
 		cli2.getPhones().addAll(Arrays.asList("2313131","32131313"));
 		

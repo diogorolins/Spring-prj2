@@ -1,7 +1,6 @@
 package com.diogorolins.springprj1.resources;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -16,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.diogorolins.springprj1.domain.Category;
 import com.diogorolins.springprj1.domain.Order;
-import com.diogorolins.springprj1.domain.dto.CategoryDTO;
 import com.diogorolins.springprj1.services.OrderService;
 
 @RestController
