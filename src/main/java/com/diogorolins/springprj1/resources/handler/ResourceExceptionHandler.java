@@ -44,14 +44,14 @@ public class ResourceExceptionHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
 		ValidationError err = new ValidationError(System.currentTimeMillis(), 
-				HttpStatus.BAD_REQUEST.value(), 
+				HttpStatus.UNPROCESSABLE_ENTITY.value(), 
 				"Erro de validação.", 
 				e.getMessage(), 
 				request.getRequestURI());	
 		for(FieldError fe : e.getBindingResult().getFieldErrors()) {
 			err.addErrors(fe.getField(), fe.getDefaultMessage());
 		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
 	}
 	
 	@ExceptionHandler(IllegalStateException.class)
@@ -76,7 +76,7 @@ public class ResourceExceptionHandler {
 	}
 	
 	@ExceptionHandler(AuthorizationException.class)
-	public ResponseEntity<StandardError> validation(AuthorizationException e, HttpServletRequest request) {
+	public ResponseEntity<StandardError> autorization(AuthorizationException e, HttpServletRequest request) {
 		ValidationError err = new ValidationError(System.currentTimeMillis(), 
 				HttpStatus.FORBIDDEN.value(), 
 				"Access Denied", 
@@ -88,7 +88,7 @@ public class ResourceExceptionHandler {
 	@ExceptionHandler(FileException.class)
 	public ResponseEntity<StandardError> validation(FileException e, HttpServletRequest request) {
 		ValidationError err = new ValidationError(System.currentTimeMillis(), 
-				HttpStatus.FORBIDDEN.value(), 
+				HttpStatus.BAD_REQUEST.value(), 
 				"Error in File", 
 				e.getMessage(), 
 				request.getRequestURI());	
