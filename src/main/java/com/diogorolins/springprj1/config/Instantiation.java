@@ -32,7 +32,6 @@ import com.diogorolins.springprj1.repositories.OrderRepository;
 import com.diogorolins.springprj1.repositories.PaymentRepository;
 import com.diogorolins.springprj1.repositories.ProductRepository;
 import com.diogorolins.springprj1.repositories.StateRepository;
-import com.diogorolins.springprj1.services.S3Service;
 
 @Configuration
 @Profile("dev")
@@ -67,9 +66,6 @@ public class Instantiation implements CommandLineRunner{
 	
 	@Autowired
 	private BCryptPasswordEncoder pe;
-	
-	@Autowired
-	private S3Service s3Service;
 	
 	@Override
 	public void run(String... args) throws Exception {

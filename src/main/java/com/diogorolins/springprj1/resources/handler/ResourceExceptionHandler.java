@@ -10,8 +10,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.diogorolins.springprj1.exceptions.AuthorizationException;
 import com.diogorolins.springprj1.exceptions.DatabaseException;
+import com.diogorolins.springprj1.exceptions.FileException;
 import com.diogorolins.springprj1.exceptions.ObjectNotFoundException;
 
 @ControllerAdvice
@@ -79,6 +83,47 @@ public class ResourceExceptionHandler {
 				e.getMessage(), 
 				request.getRequestURI());	
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+	}
+	
+	@ExceptionHandler(FileException.class)
+	public ResponseEntity<StandardError> validation(FileException e, HttpServletRequest request) {
+		ValidationError err = new ValidationError(System.currentTimeMillis(), 
+				HttpStatus.FORBIDDEN.value(), 
+				"Error in File", 
+				e.getMessage(), 
+				request.getRequestURI());	
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	
+	@ExceptionHandler(AmazonServiceException.class)
+	public ResponseEntity<StandardError> amazonException(AmazonServiceException e, HttpServletRequest request) {
+		HttpStatus code = HttpStatus.valueOf(e.getErrorCode());
+		ValidationError err = new ValidationError(System.currentTimeMillis(), 
+				code.value(), 
+				"Error in File", 
+				e.getMessage(), 
+				request.getRequestURI());	
+		return ResponseEntity.status(code).body(err);
+	}
+	
+	@ExceptionHandler(AmazonClientException.class)
+	public ResponseEntity<StandardError> amazonClient(AmazonClientException e, HttpServletRequest request) {
+		ValidationError err = new ValidationError(System.currentTimeMillis(), 
+				HttpStatus.BAD_REQUEST.value(), 
+				"Error in File", 
+				e.getMessage(), 
+				request.getRequestURI());	
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	
+	@ExceptionHandler(AmazonS3Exception.class)
+	public ResponseEntity<StandardError> amazonS3Exception(AmazonS3Exception e, HttpServletRequest request) {
+		ValidationError err = new ValidationError(System.currentTimeMillis(), 
+				HttpStatus.BAD_REQUEST.value(), 
+				"Error in File", 
+				e.getMessage(), 
+				request.getRequestURI());	
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
 	
 	
