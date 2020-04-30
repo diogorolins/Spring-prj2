@@ -48,5 +48,15 @@
     "name": "img.profile.size",
     "type": "java.lang.String",
     "description": "A description for 'img.profile.size'"
+  },
+  {
+    "name": "img.prefix.product.profile",
+    "type": "java.lang.String",
+    "description": "A description for 'img.prefix.product.profile'"
+  },
+  {
+    "name": "img.prefix.category.profile",
+    "type": "java.lang.String",
+    "description": "A description for 'img.prefix.category.profile'"
   }
 ]}

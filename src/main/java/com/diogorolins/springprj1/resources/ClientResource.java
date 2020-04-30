@@ -36,6 +36,11 @@ public class ClientResource {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/email")
+	public ResponseEntity<Client> findByEmail(@RequestParam(value = "email") String email) {
+		return ResponseEntity.ok().body(service.findByEmail(email));
+	}
+	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<ClientDTO>> findAll(){
