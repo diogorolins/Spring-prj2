@@ -1,12 +1,9 @@
 package com.diogorolins.springprj1.domain.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -48,8 +45,12 @@ public class ClientNewDTO implements Serializable{
 	@NotEmpty(message = "Campo obrigatório")
 	private String zipCode;
 	
-	@Size(min=1, max=3, message = "Entre 1 e 3 telefones")
-	private List<String> phones = new ArrayList<>();	
+	@NotEmpty(message="Campo obrigatório")
+	private String phone1;
+
+	private String phone2;
+	
+	private String phone3;
 	
 	private Integer cityId;
 	
@@ -69,7 +70,9 @@ public class ClientNewDTO implements Serializable{
 		this.compl = obj.getAddresses().get(0).getCompl();
 		this.neighborhood = obj.getAddresses().get(0).getNeighborhood();
 		this.zipCode = obj.getAddresses().get(0).getZipCode();
-		this.phones = obj.getPhones();
+		this.phone1 = obj.getPhones().size() >= 1 ? obj.getPhones().get(0) : "";
+		this.phone2 = obj.getPhones().size() >= 2 ? obj.getPhones().get(1) : "";
+		this.phone3 = obj.getPhones().size() >= 3 ? obj.getPhones().get(2) : "";
 		this.cityId = obj.getAddresses().get(0).getCity().getId();
 	}
 	
@@ -162,15 +165,28 @@ public class ClientNewDTO implements Serializable{
 	}
 
 	
-	public List<String> getPhones() {
-		return phones;
+	public String getPhone1() {
+		return phone1;
 	}
 
-	public void setPhones(List<String> phones) {
-		this.phones = phones;
+	public void setPhone1(String phone1) {
+		this.phone1 = phone1;
 	}
 
+	public String getPhone2() {
+		return phone2;
+	}
 
+	public void setPhone2(String phone2) {
+		this.phone2 = phone2;
+	}
+	public String getPhone3() {
+		return phone3;
+	}
+
+	public void setPhone3(String phone3) {
+		this.phone3 = phone3;
+	}
 
 	public Integer getCityId() {
 		return cityId;

@@ -116,8 +116,13 @@ public class ClientService {
 		Client cli =  new Client(null, dto.getName(), dto.getEmail(), dto.getCpfCnpj(), ClientType.toEnum(dto.getClientType()), pe.encode(dto.getPassword()));
 		Address adr = new Address(null, dto.getStreet(), dto.getNumber(), dto.getCompl(), dto.getNeighborhood(), dto.getZipCode(), cli, new City(dto.getCityId(), null, null));
 		cli.getAddresses().add(adr);
-		for(String s : dto.getPhones()) {
-			cli.getPhones().add(s);
+		cli.getPhones().add(dto.getPhone1());
+		
+		if (dto.getPhone2() != null && !dto.getPhone2().isEmpty()) {
+			cli.getPhones().add(dto.getPhone2());
+		}
+		if (dto.getPhone3() != null && !dto.getPhone3().isEmpty()) {
+			cli.getPhones().add(dto.getPhone3());
 		}
 		return cli;
 	}
