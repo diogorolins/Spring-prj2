@@ -58,6 +58,7 @@ public class OrderService {
 	public Order insert(Order obj) {
 		System.out.println("Começou a inserir");
 		obj = configureOrder(obj);
+		System.out.println("Finalizou a inserçao");
 		emailService.sendOrderConfirmationMail(obj);
 		return obj;
 	}
