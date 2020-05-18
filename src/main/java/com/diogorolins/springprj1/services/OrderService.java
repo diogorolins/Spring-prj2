@@ -56,7 +56,6 @@ public class OrderService {
 	}
 
 	public Order insert(Order obj) {
-		System.out.println("Começou a inserir");
 		obj = configureOrder(obj);
 		System.out.println("Finalizou a inserçao");
 		emailService.sendOrderConfirmationMail(obj);
@@ -64,22 +63,16 @@ public class OrderService {
 	}
 
 	private Order configureOrder(Order obj) {
-		System.out.println("Entrou no metodo");
 		obj.setId(null);
 		obj.setInstant(new Date());
-		System.out.println("Instanciou a data");
 		obj.setClient(clientService.findById(obj.getClient().getId()));
-		System.out.println("Inseriu cliente");
 		obj.getPayment().setPaymentStatus(PaymentStatus.WAITING_PAYMENT);
-		System.out.println("inseriu status pagamento");
 		obj.getPayment().setOrder(obj);
 		obj = repository.save(obj);
-		System.out.println("salvou pedido");
 		if(obj.getPayment() instanceof PaymentBoleto) {
 			PaymentBoleto pay = (PaymentBoleto) obj.getPayment();
 			paymentService.fillPaymentBoleto(pay, obj.getInstant());
 		}
-		System.out.println("inseriu tipo pagamento");
 		paymentRepository.save(obj.getPayment());
 		for(OrderItem i : obj.getItems()) {
 			i.setDiscount(0.0);

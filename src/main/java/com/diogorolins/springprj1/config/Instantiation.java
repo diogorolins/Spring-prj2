@@ -34,7 +34,7 @@ import com.diogorolins.springprj1.repositories.ProductRepository;
 import com.diogorolins.springprj1.repositories.StateRepository;
 
 @Configuration
-@Profile("dev")
+@Profile("prod")
 public class Instantiation implements CommandLineRunner{
 
 	@Autowired
@@ -217,14 +217,14 @@ public class Instantiation implements CommandLineRunner{
 		stateRepository.saveAll(Arrays.asList(st1, st2));
 		cityRepository.saveAll(Arrays.asList(city1, city2, city3));
 		
-		Client cli1 = new Client(null, "Maria Silva", "diogorolins@gmail.com", "19293949585", ClientType.PESSOAFISICA, pe.encode("123456"));
+		Client cli1 = new Client(null, "Diogo", "diogorolins@gmail.com", "19293949585", ClientType.PESSOAFISICA, pe.encode("123456"));
 		cli1.getPhones().addAll(Arrays.asList("891898118","27272772"));
 		
 		Client cli2 = new Client(null, "Ana Costa", "diogorolins@hotmail.com", "09475414703", ClientType.PESSOAFISICA, pe.encode("123456"));
 		cli2.addRole(Roles.ADMIN);
 		cli2.getPhones().addAll(Arrays.asList("2313131","32131313"));
 		
-		Address ad1 = new Address(null, "Rua Flores", "300", "Apt 303", "Jardim", "22938293", cli1, city1);
+		Address ad1 = new Address(null, "Rua Haddock Lobo", "300", "Apt 208", "Tijuca", "22938293", cli1, city1);
 		Address ad2 = new Address(null, "Avenida Matos", "105", "Sala 803", "Centro", "32323939", cli1, city2);
 		Address ad3 = new Address(null, "Avenida Dois", "2000", null, "Centro", "323213123", cli2, city2);
 		
