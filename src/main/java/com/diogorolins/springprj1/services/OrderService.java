@@ -56,7 +56,7 @@ public class OrderService {
 	}
 
 	public Order insert( Order obj) {
-		System.out.println("chegou" + obj);
+		System.out.println(obj);
 		obj = configureOrder(obj);
 		emailService.sendOrderConfirmationMail(obj);
 		return obj;
