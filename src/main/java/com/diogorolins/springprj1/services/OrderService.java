@@ -55,8 +55,8 @@ public class OrderService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Resource not found: " + Order.class.getSimpleName() + " id " + id));
 	}
 
-	public Order insert( Order obj) {
-		System.out.println(obj);
+	public Order insert(Order obj) {
+		System.out.println("chegou");
 		obj = configureOrder(obj);
 		emailService.sendOrderConfirmationMail(obj);
 		return obj;
