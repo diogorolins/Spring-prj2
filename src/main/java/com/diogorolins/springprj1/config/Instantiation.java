@@ -34,7 +34,7 @@ import com.diogorolins.springprj1.repositories.ProductRepository;
 import com.diogorolins.springprj1.repositories.StateRepository;
 
 @Configuration
-@Profile("dev")
+@Profile("test")
 public class Instantiation implements CommandLineRunner{
 
 	@Autowired
