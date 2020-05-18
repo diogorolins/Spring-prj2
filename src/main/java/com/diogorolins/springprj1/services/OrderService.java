@@ -56,7 +56,6 @@ public class OrderService {
 	}
 
 	public Order insert(Order obj) {
-		System.out.println("chegou");
 		obj = configureOrder(obj);
 		emailService.sendOrderConfirmationMail(obj);
 		return obj;
@@ -81,6 +80,7 @@ public class OrderService {
 			i.setOrder(obj);
 		}
 		orderItemRepository.saveAll(obj.getItems());
+		System.out.println("Chegou");
 		return obj;
 	}
 	
