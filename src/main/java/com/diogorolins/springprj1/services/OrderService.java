@@ -57,7 +57,7 @@ public class OrderService {
 
 	public Order insert( Order obj) {
 		obj = configureOrder(obj);
-		emailService.sendOrderConfirmationMail(obj);
+		//emailService.sendOrderConfirmationMail(obj);
 		return obj;
 	}
 
