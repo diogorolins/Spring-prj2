@@ -46,7 +46,8 @@ public class CategoryService {
 		try {
 			repository.deleteById(id);
 		} catch(DataIntegrityViolationException e) {
-			throw new DatabaseException("Integrity error: " + Category.class.getSimpleName() + " ID: " + id );
+			Category catDeleted = findById(id);
+			throw new DatabaseException(catDeleted.getName());
 		}
 	}
 	

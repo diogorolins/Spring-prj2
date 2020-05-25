@@ -10,13 +10,17 @@ import com.diogorolins.springprj1.repositories.StateRepository;
 
 @Service
 public class StateService {
-	
+
 	@Autowired
 	private StateRepository repository;
-	
+
 	public List<State> findAll() {
 		return repository.findAllByOrderByName();
-	};
+	}
 	
+	public State findById(Integer id) {
+		return repository.findById(id).get();
+	}
+
 
 }

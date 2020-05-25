@@ -5,6 +5,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,8 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.diogorolins.springprj1.domain.Address;
 import com.diogorolins.springprj1.domain.City;
 import com.diogorolins.springprj1.domain.Client;
-import com.diogorolins.springprj1.domain.dto.ClientDTO;
 import com.diogorolins.springprj1.domain.dto.ClientNewDTO;
+import com.diogorolins.springprj1.domain.dto.ClientUpdateDTO;
 import com.diogorolins.springprj1.domain.enums.ClientType;
 import com.diogorolins.springprj1.domain.enums.Roles;
 import com.diogorolins.springprj1.exceptions.AuthorizationException;
@@ -77,6 +79,7 @@ public class ClientService {
 	public Client update(Client obj) {
 		Client newObj = findById(obj.getId());
 		obj = updateData(newObj, obj); 
+		obj.getAddresses().stream().forEach(e -> System.out.println(e.getStreet()));
 		repository.save(obj);
 		return obj;
 	}
@@ -97,7 +100,7 @@ public class ClientService {
 		}
 		Client client = repository.findByEmail(email);
 		if(client == null) {
-			throw new ObjectNotFoundException("Email náo encontrado.");
+			throw new ObjectNotFoundException("Email não encontrado.");
 		}
 		return client;
 		
@@ -108,8 +111,19 @@ public class ClientService {
 		return repository.findAll(pageRequest);
 	}
 	
-	public Client fromDto(ClientDTO dto) {
-		return new Client(dto.getId(), dto.getName(), dto.getEmail(), null, null, null);
+	public Client fromDto(@Valid ClientUpdateDTO dto) {
+		Client cli =  new Client(null, dto.getName(), dto.getEmail(), dto.getCpfCnpj(), ClientType.toEnum(dto.getClientType()), dto.getPassword());
+		Address adr = new Address(null, dto.getStreet(), dto.getNumber(), dto.getCompl(), dto.getNeighborhood(), dto.getZipCode(), cli, new City(dto.getCityId(), null, null));
+		cli.getAddresses().add(adr);
+		cli.getPhones().add(dto.getPhone1());
+		
+		if (dto.getPhone2() != null && !dto.getPhone2().isEmpty()) {
+			cli.getPhones().add(dto.getPhone2());
+		}
+		if (dto.getPhone3() != null && !dto.getPhone3().isEmpty()) {
+			cli.getPhones().add(dto.getPhone3());
+		}
+		return cli;
 	}
 	
 	public Client fromDto(ClientNewDTO dto) {
@@ -128,10 +142,15 @@ public class ClientService {
 	}
 	
 	private Client updateData(Client newObj, Client obj) {
-		obj.setClientType(newObj.getClientType());
-		obj.setCpfCnpj(newObj.getCpfCnpj());
-		obj.getPhones().addAll(newObj.getPhones());		
-		return obj;
+		newObj.setName(obj.getName());
+		newObj.setCpfCnpj(obj.getCpfCnpj());
+		newObj.setClientType(obj.getClientType());
+		obj.getAddresses().get(0).setId(newObj.getAddresses().get(0).getId());
+		newObj.getAddresses().set(0, obj.getAddresses().get(0));
+		newObj.getPhones().clear();
+		newObj.getPhones().addAll(obj.getPhones());	
+		
+		return newObj;
 	}
 	
 	public URI uploadProfilePicture(MultipartFile mf) {

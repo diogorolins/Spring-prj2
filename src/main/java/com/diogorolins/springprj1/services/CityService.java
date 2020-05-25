@@ -10,13 +10,13 @@ import com.diogorolins.springprj1.repositories.CityRepository;
 
 @Service
 public class CityService {
-	
+
 	@Autowired
-	private  CityRepository repository;
+	private CityRepository repository;
 	
 	public List<City> findAllByState(Integer stateId) {
 		return repository.findCity(stateId);
-	};
-	
+	}
 
+	
 }

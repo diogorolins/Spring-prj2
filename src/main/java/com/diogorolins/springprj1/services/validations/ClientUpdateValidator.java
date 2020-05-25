@@ -12,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.diogorolins.springprj1.domain.Client;
-import com.diogorolins.springprj1.domain.dto.ClientDTO;
+import com.diogorolins.springprj1.domain.dto.ClientUpdateDTO;
 import com.diogorolins.springprj1.repositories.ClientRepository;
 import com.diogorolins.springprj1.resources.handler.FieldMessage;
 
-public class ClientUpdateValidator implements ConstraintValidator<ClientUpdate, ClientDTO> {
+public class ClientUpdateValidator implements ConstraintValidator<ClientUpdate, ClientUpdateDTO> {
 	
 	@Autowired
 	private ClientRepository repository;
@@ -29,7 +29,7 @@ public class ClientUpdateValidator implements ConstraintValidator<ClientUpdate, 
 	} 
 
 	@Override
-	public boolean isValid(ClientDTO objDto, ConstraintValidatorContext context) {
+	public boolean isValid(ClientUpdateDTO objDto, ConstraintValidatorContext context) {
 		
 		@SuppressWarnings("unchecked")
 		Map<String, String> map = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);

@@ -31,6 +31,7 @@ public class AuthService {
 		}
 
 		String newPass = generateNewPassword();
+		System.out.println(newPass);
 		client.setPassword(encoder.encode(newPass));
 		repository.save(client);
 		emailService.sendNewPasswordEmail(client, newPass);

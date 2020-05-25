@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.diogorolins.springprj1.domain.Client;
 import com.diogorolins.springprj1.domain.dto.ClientDTO;
 import com.diogorolins.springprj1.domain.dto.ClientNewDTO;
+import com.diogorolins.springprj1.domain.dto.ClientUpdateDTO;
 import com.diogorolins.springprj1.services.ClientService;
 
 @RestController
@@ -60,11 +61,11 @@ public class ClientResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-	public ResponseEntity<ClientDTO> update(@Valid @RequestBody ClientDTO objDto, @PathVariable Integer id) {
+	public ResponseEntity<ClientUpdateDTO> update(@Valid @RequestBody ClientUpdateDTO objDto, @PathVariable Integer id) {
 		Client obj = service.fromDto(objDto); 
 		obj.setId(id);
 		obj = service.update(obj);
-		return ResponseEntity.ok().body(new ClientDTO(obj));
+		return ResponseEntity.ok().body(new ClientUpdateDTO(obj));
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
