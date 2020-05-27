@@ -30,12 +30,12 @@ public class ClientInsertValidator implements ConstraintValidator<ClientInsert, 
 		
 		if(objDto.getClientType().equals(ClientType.PESSOAFISICA.getId()) && 
 				!BR.isValidCPF(objDto.getCpfCnpj())) {
-			list.add(new FieldMessage("CPF", "CPF inválido"));
+			list.add(new FieldMessage("cpfCnpj", "CPF inválido"));
 		}
 		
 		if(objDto.getClientType().equals(ClientType.PESSOAJURIDICA.getId()) && 
 				!BR.isValidCNPJ(objDto.getCpfCnpj())) {
-			list.add(new FieldMessage("CNPJ", "CNPJ inválido"));
+			list.add(new FieldMessage("cpfCnpj", "CNPJ inválido"));
 		}	
 		
 		Client cli = repository.findByEmail(objDto.getEmail());

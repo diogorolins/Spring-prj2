@@ -1,12 +1,15 @@
 package com.diogorolins.springprj1.domain.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.diogorolins.springprj1.domain.Address;
 import com.diogorolins.springprj1.domain.Client;
 import com.diogorolins.springprj1.services.validations.ClientInsert;
 
@@ -32,27 +35,12 @@ public class ClientNewDTO implements Serializable{
 	@NotEmpty(message = "Campo obrigatório")
 	private String password;
 	
-	@NotEmpty(message = "Campo obrigatório")
-	private String street;
+	@NotEmpty(message = "Pelo menos um endereço")
+	private List<Address> addresses = new ArrayList<>();
 	
-	@NotEmpty(message = "Campo obrigatório")
-	private String number;
-	
-	private String compl;
-	
-	private String neighborhood;
-	
-	@NotEmpty(message = "Campo obrigatório")
-	private String zipCode;
-	
-	@NotEmpty(message="Campo obrigatório")
-	private String phone1;
+	@NotEmpty(message = "Pelo menos um telefone")
+	private List<String> phones = new ArrayList<>();
 
-	private String phone2;
-	
-	private String phone3;
-	
-	private Integer cityId;
 	
 	public ClientNewDTO() {
 		
@@ -65,17 +53,14 @@ public class ClientNewDTO implements Serializable{
 		this.email = obj.getEmail();
 		this.cpfCnpj = obj.getCpfCnpj();
 		this.clientType = obj.getClientType().getId();
-		this.street = obj.getAddresses().get(0).getStreet();
-		this.number = obj.getAddresses().get(0).getNumber();
-		this.compl = obj.getAddresses().get(0).getCompl();
-		this.neighborhood = obj.getAddresses().get(0).getNeighborhood();
-		this.zipCode = obj.getAddresses().get(0).getZipCode();
-		this.phone1 = obj.getPhones().size() >= 1 ? obj.getPhones().get(0) : "";
-		this.phone2 = obj.getPhones().size() >= 2 ? obj.getPhones().get(1) : "";
-		this.phone3 = obj.getPhones().size() >= 3 ? obj.getPhones().get(2) : "";
-		this.cityId = obj.getAddresses().get(0).getCity().getId();
+		this.addresses = obj.getAddresses();
+		this.phones = obj.getPhones();
 	}
 	
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -124,77 +109,13 @@ public class ClientNewDTO implements Serializable{
 		this.password = password;
 	}
 
-	public String getStreet() {
-		return street;
+	public List<String> getPhones() {
+		return phones;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
+	public void setPhone1(List<String> phones) {
+		this.phones= phones;
 	}
 
-	public String getNumber() {
-		return number;
-	}
 
-	public void setNumber(String number) {
-		this.number = number;
-	}
-
-	public String getCompl() {
-		return compl;
-	}
-
-	public void setCompl(String compl) {
-		this.compl = compl;
-	}
-
-	public String getNeighborhood() {
-		return neighborhood;
-	}
-
-	public void setNeighborhood(String neighborhood) {
-		this.neighborhood = neighborhood;
-	}
-
-	public String getZipCode() {
-		return zipCode;
-	}
-
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
-	}
-
-	
-	public String getPhone1() {
-		return phone1;
-	}
-
-	public void setPhone1(String phone1) {
-		this.phone1 = phone1;
-	}
-
-	public String getPhone2() {
-		return phone2;
-	}
-
-	public void setPhone2(String phone2) {
-		this.phone2 = phone2;
-	}
-	public String getPhone3() {
-		return phone3;
-	}
-
-	public void setPhone3(String phone3) {
-		this.phone3 = phone3;
-	}
-
-	public Integer getCityId() {
-		return cityId;
-	}
-
-	public void setCityId(Integer cityId) {
-		this.cityId = cityId;
-	}
-	
-	
 }

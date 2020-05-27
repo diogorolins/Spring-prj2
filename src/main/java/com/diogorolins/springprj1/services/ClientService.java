@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.diogorolins.springprj1.domain.Address;
-import com.diogorolins.springprj1.domain.City;
 import com.diogorolins.springprj1.domain.Client;
 import com.diogorolins.springprj1.domain.dto.ClientNewDTO;
 import com.diogorolins.springprj1.domain.dto.ClientUpdateDTO;
@@ -71,6 +70,7 @@ public class ClientService {
 	
 	public Client insert(Client obj) {
 		obj.setId(null);
+		System.out.println(obj.getAddresses().get(0).getStreet());
 		obj = repository.save(obj);
 		addressRepository.saveAll(obj.getAddresses());
 		return repository.save(obj);
@@ -113,31 +113,23 @@ public class ClientService {
 	
 	public Client fromDto(@Valid ClientUpdateDTO dto) {
 		Client cli =  new Client(null, dto.getName(), dto.getEmail(), dto.getCpfCnpj(), ClientType.toEnum(dto.getClientType()), dto.getPassword());
-		Address adr = new Address(null, dto.getStreet(), dto.getNumber(), dto.getCompl(), dto.getNeighborhood(), dto.getZipCode(), cli, new City(dto.getCityId(), null, null));
-		cli.getAddresses().add(adr);
-		cli.getPhones().add(dto.getPhone1());
-		
-		if (dto.getPhone2() != null && !dto.getPhone2().isEmpty()) {
-			cli.getPhones().add(dto.getPhone2());
+		List<Address> adrs = dto.getAddresses();
+		for (Address address : adrs) {
+			address.setClient(cli);
 		}
-		if (dto.getPhone3() != null && !dto.getPhone3().isEmpty()) {
-			cli.getPhones().add(dto.getPhone3());
-		}
+		cli.getAddresses().addAll(adrs);
+		cli.getPhones().addAll(dto.getPhones());
 		return cli;
 	}
 	
 	public Client fromDto(ClientNewDTO dto) {
 		Client cli =  new Client(null, dto.getName(), dto.getEmail(), dto.getCpfCnpj(), ClientType.toEnum(dto.getClientType()), pe.encode(dto.getPassword()));
-		Address adr = new Address(null, dto.getStreet(), dto.getNumber(), dto.getCompl(), dto.getNeighborhood(), dto.getZipCode(), cli, new City(dto.getCityId(), null, null));
-		cli.getAddresses().add(adr);
-		cli.getPhones().add(dto.getPhone1());
-		
-		if (dto.getPhone2() != null && !dto.getPhone2().isEmpty()) {
-			cli.getPhones().add(dto.getPhone2());
+		List<Address> adrs = dto.getAddresses();
+		for (Address address : adrs) {
+			address.setClient(cli);
 		}
-		if (dto.getPhone3() != null && !dto.getPhone3().isEmpty()) {
-			cli.getPhones().add(dto.getPhone3());
-		}
+		cli.getAddresses().addAll(adrs);
+		cli.getPhones().addAll(dto.getPhones());
 		return cli;
 	}
 	
@@ -145,14 +137,22 @@ public class ClientService {
 		newObj.setName(obj.getName());
 		newObj.setCpfCnpj(obj.getCpfCnpj());
 		newObj.setClientType(obj.getClientType());
-		obj.getAddresses().get(0).setId(newObj.getAddresses().get(0).getId());
-		newObj.getAddresses().set(0, obj.getAddresses().get(0));
+		clearAddressList(obj.getId());
+		newObj.getAddresses().clear();
+		newObj.getAddresses().addAll(obj.getAddresses());
+		
+		
 		newObj.getPhones().clear();
 		newObj.getPhones().addAll(obj.getPhones());	
 		
 		return newObj;
 	}
 	
+	private void clearAddressList(Integer id) {
+		addressRepository.deletebyClient(id);
+		
+	}
+
 	public URI uploadProfilePicture(MultipartFile mf) {
 		UserSS userSS = UserService.authenticated();
 		if(userSS == null) {
