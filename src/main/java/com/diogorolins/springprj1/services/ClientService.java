@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.diogorolins.springprj1.domain.Address;
 import com.diogorolins.springprj1.domain.Client;
 import com.diogorolins.springprj1.domain.dto.ClientNewDTO;
+import com.diogorolins.springprj1.domain.dto.ClientPasswordDTO;
 import com.diogorolins.springprj1.domain.dto.ClientUpdateDTO;
 import com.diogorolins.springprj1.domain.enums.ClientType;
 import com.diogorolins.springprj1.domain.enums.Roles;
@@ -70,7 +71,6 @@ public class ClientService {
 	
 	public Client insert(Client obj) {
 		obj.setId(null);
-		System.out.println(obj.getAddresses().get(0).getStreet());
 		obj = repository.save(obj);
 		addressRepository.saveAll(obj.getAddresses());
 		return repository.save(obj);
@@ -165,6 +165,12 @@ public class ClientService {
 		String fileName = prefix + userSS.getId() + ".jpg";
 		
 		return s3Service.upUploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
+	}
+
+	public void changePassword(Integer id, String password) {
+		Client newObj = findById(id);
+		newObj.setPassword(pe.encode(password));	
+		repository.save(newObj);
 	}
 		
 }

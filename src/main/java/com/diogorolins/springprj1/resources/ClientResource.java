@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.diogorolins.springprj1.domain.Client;
 import com.diogorolins.springprj1.domain.dto.ClientDTO;
 import com.diogorolins.springprj1.domain.dto.ClientNewDTO;
+import com.diogorolins.springprj1.domain.dto.ClientPasswordDTO;
 import com.diogorolins.springprj1.domain.dto.ClientUpdateDTO;
 import com.diogorolins.springprj1.services.ClientService;
 
@@ -58,6 +59,12 @@ public class ClientResource {
 				.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(new ClientNewDTO(obj));
+	}
+	
+	@RequestMapping(method = RequestMethod.PATCH, value = "/password/{id}")
+	public ResponseEntity<Void> updatePassword(@Valid @RequestBody ClientPasswordDTO password, @PathVariable Integer id) {
+		service.changePassword(id, password.getPassword());
+		return ResponseEntity.noContent().build();
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id}")
