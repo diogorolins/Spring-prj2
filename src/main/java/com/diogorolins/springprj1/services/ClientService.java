@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.diogorolins.springprj1.domain.Address;
 import com.diogorolins.springprj1.domain.Client;
 import com.diogorolins.springprj1.domain.dto.ClientNewDTO;
-import com.diogorolins.springprj1.domain.dto.ClientPasswordDTO;
 import com.diogorolins.springprj1.domain.dto.ClientUpdateDTO;
 import com.diogorolins.springprj1.domain.enums.ClientType;
 import com.diogorolins.springprj1.domain.enums.Roles;
