@@ -9,7 +9,7 @@ public class CityDTO implements Serializable{
 	
 	private Integer id;
 	private String name;
-	private String state;
+	
 	
 	public CityDTO() {
 		
@@ -18,7 +18,6 @@ public class CityDTO implements Serializable{
 	public CityDTO(City city) {
 		this.id = city.getId();
 		this.name = city.getName();
-		this.state = city.getState().getName(); 
 	}
 
 	public Integer getId() {
@@ -37,12 +36,6 @@ public class CityDTO implements Serializable{
 		this.name = name;
 	}
 
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
+	
 	
 }

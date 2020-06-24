@@ -220,7 +220,7 @@ public class Instantiation implements CommandLineRunner{
 		Client cli1 = new Client(null, "Diogo", "diogorolins@gmail.com", "19293949585", ClientType.PESSOAFISICA, pe.encode("123456"));
 		cli1.getPhones().addAll(Arrays.asList("891898118","27272772"));
 		
-		Client cli2 = new Client(null, "Ana Costa", "diogorolins@hotmail.com", "09475414703", ClientType.PESSOAFISICA, pe.encode("123456"));
+		Client cli2 = new Client(null, "Diogo Rocha", "diogorolins@hotmail.com", "09475414703", ClientType.PESSOAFISICA, pe.encode("123456"));
 		cli2.addRole(Roles.ADMIN);
 		cli2.getPhones().addAll(Arrays.asList("2313131","32131313"));
 		

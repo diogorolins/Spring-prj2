@@ -40,7 +40,7 @@ public class ClientInsertValidator implements ConstraintValidator<ClientInsert, 
 		
 		Client cli = repository.findByEmail(objDto.getEmail());
 		if(cli != null) {
-			list.add(new FieldMessage("Email", "Email duplicado."));
+			list.add(new FieldMessage("Email", "Email já cadastrado."));
 		}
 
 		for (FieldMessage e : list) {
